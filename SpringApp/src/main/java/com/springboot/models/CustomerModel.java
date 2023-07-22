@@ -8,6 +8,7 @@ import jakarta.persistence.Table;
 @Table(name = "customers")
 public class CustomerModel {
 	
+
 	@Id
 	private String custId;
 	private String firstName;
@@ -37,15 +38,11 @@ public class CustomerModel {
 		return custId;
 	}
 
-	public void setCustId(String custId) {
-		this.custId = custId;
-	}
-
 	public String getFirstName() {
 		return firstName;
 	}
 
-	public void setFirstName(String firstName) {
+	protected void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
@@ -61,7 +58,7 @@ public class CustomerModel {
 		return address;
 	}
 
-	public void setAddress(String address) {
+	protected void setAddress(String address) {
 		this.address = address;
 	}
 
@@ -69,7 +66,7 @@ public class CustomerModel {
 		return emailId;
 	}
 
-	public void setEmailId(String emailId) {
+	protected void setEmailId(String emailId) {
 		this.emailId = emailId;
 	}
 
@@ -77,15 +74,15 @@ public class CustomerModel {
 		return mobileNo;
 	}
 
-	public void setMobileNo(String mobileNo) {
+	protected void setMobileNo(String mobileNo) {
 		this.mobileNo = mobileNo;
 	}
 
-	public String getPwd() {
+	protected String getPwd() {
 		return pwd;
 	}
 
-	public void setPwd(String pwd) {
+	protected void setPwd(String pwd) {
 		this.pwd = pwd;
 	}
 	

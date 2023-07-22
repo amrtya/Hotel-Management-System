@@ -1,26 +1,44 @@
 package com.springboot.controllers;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.springboot.models.CustomerModel;
+import com.springboot.models.*;
 import com.springboot.services.AdminService;
 
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
 	
-	// This controller class gives the endpoints for admin. 
+	// This controller class gives the endpoints and operations for admin. 
 	
 	@Autowired
 	private AdminService adminService;
 	
-	@GetMapping("/getAllCust")
-	public List<CustomerModel> getAllCustomers() {
+	@GetMapping("/getCustomers")
+	public ResponseModelListPayload<CustomerModel> getAllCustomers() {
 		return adminService.getAllCustomers();
 	}
+	
+	@GetMapping("/getCustomer/{id}")
+	public ResponseModelSinglePayload<CustomerModel> getCustomerById(@PathVariable String id) {
+		return adminService.getCustomerById(id);
+	}
+	
+	@RequestMapping(method = RequestMethod.PUT, value = "/update/{id}")
+	public ResponseModelSinglePayload<CustomerModel> updateCustomer(CustomerModel customerModel, @PathVariable String id) {
+		return adminService.updateCustomer(customerModel, id);
+	}
+	
+	@RequestMapping(method = RequestMethod.DELETE, value = "/deleteCustomer/{id}")
+	public ResponseModel deleteCustomer(@PathVariable String id) {
+		return adminService.deleteCustomer(id);
+	}
+	
+	
 }
