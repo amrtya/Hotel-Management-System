@@ -1,48 +1,76 @@
 package com.springboot.models;
 
+import java.util.List;
+
+import org.hibernate.annotations.GenericGenerator;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "customers")
+@Table
 public class CustomerModel {
 	
-
-	@Id
+	@Id 
+	@GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
 	private String custId;
 	private String firstName;
 	private String lastName;
 	private String address;
-	private String emailId;
+	private String email;
 	private String mobileNo;
-	private String pwd;
+	
+	@OneToMany(mappedBy = "customers")
+	private List<ReservationModel> reservations;
 	
 	public CustomerModel() {
-		
+		super();
+		// TODO Auto-generated constructor stub
 	}
 	
-	public CustomerModel(String custId, String firstName, String lastName, String address, String emailId, String mobileNo,
-			String pwd) {
+	public CustomerModel(String firstName, String lastName, String address, String emailId,
+			String mobileNo) {
+		
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.address = address;
+		this.email = emailId;
+		this.mobileNo = mobileNo;
+	}
+	
+	public CustomerModel(String custId, String firstName, String lastName, String address, String emailId,
+			String mobileNo) {
+		
 		super();
 		this.custId = custId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.address = address;
-		this.emailId = emailId;
+		this.email = emailId;
 		this.mobileNo = mobileNo;
-		this.pwd = pwd;
 	}
 
 	public String getCustId() {
 		return custId;
 	}
 
+	public void setCustId(String custId) {
+		this.custId = custId;
+	}
+
 	public String getFirstName() {
 		return firstName;
 	}
 
-	protected void setFirstName(String firstName) {
+	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
@@ -58,32 +86,26 @@ public class CustomerModel {
 		return address;
 	}
 
-	protected void setAddress(String address) {
+	public void setAddress(String address) {
 		this.address = address;
 	}
 
 	public String getEmailId() {
-		return emailId;
+		return email;
 	}
 
-	protected void setEmailId(String emailId) {
-		this.emailId = emailId;
+	public void setEmailId(String emailId) {
+		this.email = emailId;
 	}
 
 	public String getMobileNo() {
 		return mobileNo;
 	}
 
-	protected void setMobileNo(String mobileNo) {
+	public void setMobileNo(String mobileNo) {
 		this.mobileNo = mobileNo;
 	}
-
-	protected String getPwd() {
-		return pwd;
-	}
-
-	protected void setPwd(String pwd) {
-		this.pwd = pwd;
-	}
+	
+	
 	
 }
