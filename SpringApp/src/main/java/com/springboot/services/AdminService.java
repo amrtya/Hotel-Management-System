@@ -1,6 +1,5 @@
 package com.springboot.services;
 
-import java.util.List;
 import java.util.Optional;
 
 
@@ -21,6 +20,7 @@ public class AdminService {
 	public ResponseModelListPayload<CustomerModel> getAllCustomers() {
 		return new ResponseModelListPayload<CustomerModel>(ResponseModel.SUCCESS, customerModelRepository.findAll());
 	}
+	
 	
 	public ResponseModelSinglePayload<CustomerModel> getCustomerById(String id) {
 		
