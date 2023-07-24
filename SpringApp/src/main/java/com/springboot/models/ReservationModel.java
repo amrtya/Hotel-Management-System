@@ -31,7 +31,7 @@ public class ReservationModel {
 	private String custId;
 	
 	@ManyToOne
-	private CustomerModel customers;
+	private UserModel customers;
 	
 
 	public ReservationModel() {
@@ -39,7 +39,7 @@ public class ReservationModel {
 	}
 	
 	public ReservationModel(int noOfDays, int noOfRooms, double amount, Date dateOfBook, Boolean receiptGenerated,  
-			CustomerModel customers) {
+			UserModel customers) {
 		super();
 		this.noOfDays = noOfDays;
 		this.noOfRooms = noOfRooms;
@@ -89,11 +89,11 @@ public class ReservationModel {
 		this.receiptGenerated = receiptGenerated;
 	}
 
-	public CustomerModel getCustomers() {
+	public UserModel getCustomers() {
 		return customers;
 	}
 
-	public void setCustomers(CustomerModel customers) {
+	public void setCustomers(UserModel customers) {
 		this.customers = customers;
 	}
 }

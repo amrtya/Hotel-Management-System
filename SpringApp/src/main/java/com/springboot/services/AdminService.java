@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.springboot.models.*;
-import com.springboot.repository.CustomerModelRepository;
+import com.springboot.repository.UserModelRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -15,44 +15,44 @@ import jakarta.transaction.Transactional;
 public class AdminService {
 	
 	@Autowired
-	private CustomerModelRepository customerModelRepository;
+	private UserModelRepository customerModelRepository;
 	
-	public ResponseModelListPayload<CustomerModel> getAllCustomers() {
-		return new ResponseModelListPayload<CustomerModel>(ResponseModel.SUCCESS, customerModelRepository.findAll());
+	public ResponseModelListPayload<UserModel> getAllCustomers() {
+		return new ResponseModelListPayload<UserModel>(ResponseModel.SUCCESS, customerModelRepository.findAll());
 	}
 	
 	
-	public ResponseModelSinglePayload<CustomerModel> getCustomerById(String id) {
+	public ResponseModelSinglePayload<UserModel> getCustomerById(String id) {
 		
-		Optional<CustomerModel> custById = customerModelRepository.findById(id);
+		Optional<UserModel> custById = customerModelRepository.findById(id);
 		
 		if(custById.isEmpty()) {
-			return new ResponseModelSinglePayload<CustomerModel>(ResponseModel.FAILURE, "Customer not found by this ID", null);
+			return new ResponseModelSinglePayload<UserModel>(ResponseModel.FAILURE, "Customer not found by this ID", null);
 		}
 		
-		CustomerModel custFound = custById.get();
+		UserModel custFound = custById.get();
 		
-		return new ResponseModelSinglePayload<CustomerModel>(ResponseModel.SUCCESS, "User Found", custFound);
+		return new ResponseModelSinglePayload<UserModel>(ResponseModel.SUCCESS, "User Found", custFound);
 	}
 	
 	@Transactional
-	public ResponseModelSinglePayload<CustomerModel> updateCustomer(CustomerModel customerToUpdate, String id) {
+	public ResponseModelSinglePayload<UserModel> updateCustomer(UserModel customerToUpdate, String id) {
 		
-		Optional<CustomerModel> customer = customerModelRepository.findById(id);
+		Optional<UserModel> customer = customerModelRepository.findById(id);
 		
 		if(customer.isEmpty()) {
-			return new ResponseModelSinglePayload<CustomerModel>(ResponseModel.FAILURE, "Cusotmer not found", null);
+			return new ResponseModelSinglePayload<UserModel>(ResponseModel.FAILURE, "Cusotmer not found", null);
 		}
 		
-		CustomerModel customerCurrent = customer.get();
+		UserModel customerCurrent = customer.get();
 		customerModelRepository.save(customerToUpdate);
-		return new ResponseModelSinglePayload<CustomerModel>(ResponseModel.SUCCESS, "Customer updated successfully", customerCurrent);
+		return new ResponseModelSinglePayload<UserModel>(ResponseModel.SUCCESS, "Customer updated successfully", customerCurrent);
 		
 	}
 	
 	public ResponseModel deleteCustomer(String id) {
 		
-		Optional<CustomerModel> customer = customerModelRepository.findById(id);
+		Optional<UserModel> customer = customerModelRepository.findById(id);
 		
 		if(customer.isEmpty()) {
 			return new ResponseModel(ResponseModel.FAILURE, "Cusotmer not found");

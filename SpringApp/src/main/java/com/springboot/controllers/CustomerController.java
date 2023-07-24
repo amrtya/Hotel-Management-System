@@ -19,7 +19,7 @@ public class CustomerController {
 	private SignupService signupService;
 	
 	@PostMapping("/signup")
-	public ResponseModel signupCustomer(@RequestBody CustomerReceiver customer) {
+	public ResponseModel signupCustomer(@RequestBody UserReceiver customer) {
 		return signupService.signupCustomer(customer);
 	}
 

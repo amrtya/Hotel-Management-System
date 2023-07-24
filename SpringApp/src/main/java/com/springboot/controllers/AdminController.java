@@ -21,17 +21,17 @@ public class AdminController {
 	private AdminService adminService;
 	
 	@GetMapping("/getCustomers")
-	public ResponseModelListPayload<CustomerModel> getAllCustomers() {
+	public ResponseModelListPayload<UserModel> getAllCustomers() {
 		return adminService.getAllCustomers();
 	}
 	
 	@GetMapping("/getCustomer/{id}")
-	public ResponseModelSinglePayload<CustomerModel> getCustomerById(@PathVariable String id) {
+	public ResponseModelSinglePayload<UserModel> getCustomerById(@PathVariable String id) {
 		return adminService.getCustomerById(id);
 	}
 	
 	@RequestMapping(method = RequestMethod.PUT, value = "/update/{id}")
-	public ResponseModelSinglePayload<CustomerModel> updateCustomer(CustomerModel customerModel, @PathVariable String id) {
+	public ResponseModelSinglePayload<UserModel> updateCustomer(UserModel customerModel, @PathVariable String id) {
 		return adminService.updateCustomer(customerModel, id);
 	}
 	
