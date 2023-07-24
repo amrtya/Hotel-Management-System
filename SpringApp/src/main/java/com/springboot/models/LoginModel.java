@@ -20,23 +20,26 @@ public class LoginModel {
 	private String loginId;
 	private String mobNo; 
 	private String password;
+	private String jobRole;
 	
 	public LoginModel() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public LoginModel(String mobNo, String password) {
+	public LoginModel(String mobNo, String password, String jobRole) {
 		super();
 		this.mobNo = mobNo;
 		this.password = password;
+		this.jobRole = jobRole;
 	}
 
-	public LoginModel(String loginId, String mobNo, String password) {
+	public LoginModel(String loginId, String mobNo, String password, String jobRole) {
 		super();
 		this.loginId = loginId;
 		this.mobNo = mobNo;
 		this.password = password;
+		this.jobRole = jobRole;
 	}
 
 	public String getLoginId() {
@@ -62,5 +65,12 @@ public class LoginModel {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
+	public String getJobRole() {
+		return jobRole;
+	}
+
+	public void setJobRole(String jobRole) {
+		this.jobRole = jobRole;
+	}
 }
