@@ -18,19 +18,19 @@ public class SignupService {
 	@Autowired
 	private LoginModelRepository loginModelRepository;
 	
-	public ResponseModel signupCustomer(UserReceiver newCustomer) {
+	public ResponseModel signupUser(UserReceiver newUser) {
 		
-		Optional<UserModel> custbyMobileNo = customerModelRepository.findCustomerByMob(newCustomer.getMobileNo());
+		Optional<UserModel> custbyMobileNo = customerModelRepository.findCustomerByMob(newUser.getMobileNo());
 		
 		if(custbyMobileNo.isPresent()) {
 			return new ResponseModel(ResponseModel.FAILURE, "Customer with this Mobile No already exists.");
 		}
 		
-		UserModel customer = newCustomer.getCustomerModel();
+		UserModel customer = newUser.getCustomerModel();
 		
 		customerModelRepository.save(customer);
 		
-		loginModelRepository.save(new LoginModel(newCustomer.getMobileNo(), newCustomer.getPwd(), newCustomer.getJobRole()));
+		loginModelRepository.save(new LoginModel(newUser.getMobileNo(), newUser.getPwd(), newUser.getJobRole()));
 		
 		return new ResponseModel(ResponseModel.SUCCESS, "Customer is registered successfully");
 	}
