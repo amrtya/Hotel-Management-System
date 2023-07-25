@@ -20,24 +20,24 @@ public class AdminController {
 	@Autowired
 	private AdminService adminService;
 	
-	@GetMapping("/getCustomers")
+	@GetMapping("/getUsers")
 	public ResponseModelListPayload<UserModel> getAllCustomers() {
-		return adminService.getAllCustomers();
+		return adminService.getAllUsers();
 	}
 	
-	@GetMapping("/getCustomer/{id}")
+	@GetMapping("/getUser/{id}")
 	public ResponseModelSinglePayload<UserModel> getCustomerById(@PathVariable String id) {
-		return adminService.getCustomerById(id);
+		return adminService.getUserById(id);
 	}
 	
-	@RequestMapping(method = RequestMethod.PUT, value = "/update/{id}")
+	@RequestMapping(method = RequestMethod.PUT, value = "/updateUser/{id}")
 	public ResponseModelSinglePayload<UserModel> updateCustomer(UserModel customerModel, @PathVariable String id) {
-		return adminService.updateCustomer(customerModel, id);
+		return adminService.updateUser(customerModel, id);
 	}
 	
-	@RequestMapping(method = RequestMethod.DELETE, value = "/deleteCustomer/{id}")
+	@RequestMapping(method = RequestMethod.DELETE, value = "/deleteUser/{id}")
 	public ResponseModel deleteCustomer(@PathVariable String id) {
-		return adminService.deleteCustomer(id);
+		return adminService.deleteUser(id);
 	}
 	
 	
