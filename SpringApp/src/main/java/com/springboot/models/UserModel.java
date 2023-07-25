@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.annotations.GenericGenerator;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -30,7 +31,7 @@ public class UserModel {
 	private String mobileNo;
 	private String jobRole;
 	
-	@OneToMany(mappedBy = "customers")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customers")
 	private List<ReservationModel> reservations;
 	
 	public UserModel() {

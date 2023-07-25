@@ -4,7 +4,9 @@ import java.sql.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -12,26 +14,20 @@ import jakarta.persistence.Table;
 @Table
 public class ReservationModel {
 	
-	@Column(nullable = false)
 	private int noOfDays;
-	
-	@Column(nullable = false)
 	private int noOfRooms; 
-	
-	@Column(nullable = false, precision = 2)
+
+	@Column(precision = 2)
 	private double amount; 
-	
-	@Column(nullable = false)
 	private Date dateOfBook;
-	
-	@Column(nullable = false)
 	private Boolean receiptGenerated;
 	
 	@Id
 	private String custId;
 	
-	@ManyToOne
-	private UserModel customers;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "usermodel_userid")
+	private UserModel users;
 	
 
 	public ReservationModel() {
@@ -39,14 +35,14 @@ public class ReservationModel {
 	}
 	
 	public ReservationModel(int noOfDays, int noOfRooms, double amount, Date dateOfBook, Boolean receiptGenerated,  
-			UserModel customers) {
+			UserModel users) {
 		super();
 		this.noOfDays = noOfDays;
 		this.noOfRooms = noOfRooms;
 		this.amount = amount;
 		this.dateOfBook = dateOfBook;
 		this.receiptGenerated = receiptGenerated;
-		this.customers = customers;
+		this.users = users;
 	}
 
 	public int getNoOfDays() {
@@ -89,11 +85,11 @@ public class ReservationModel {
 		this.receiptGenerated = receiptGenerated;
 	}
 
-	public UserModel getCustomers() {
-		return customers;
+	public UserModel getUsers() {
+		return users;
 	}
 
-	public void setCustomers(UserModel customers) {
-		this.customers = customers;
+	public void setUsers(UserModel users) {
+		this.users = users;
 	}
 }
