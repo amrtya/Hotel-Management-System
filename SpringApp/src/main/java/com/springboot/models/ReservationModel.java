@@ -23,7 +23,7 @@ public class ReservationModel {
 	private Boolean receiptGenerated;
 	
 	@Id
-	private String custId;
+	private String userId;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "usermodel_userid")
