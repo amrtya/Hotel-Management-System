@@ -2,9 +2,12 @@ package com.springboot.models;
 
 import java.sql.Date;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -14,6 +17,15 @@ import jakarta.persistence.Table;
 @Table
 public class ReservationModel {
 	
+	public static String PENDING = "PENDING", APPROVED = "APPROVED", REJECTED = "REJECTED";
+	
+	@Id 
+	@GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+	private String revId;
 	private int noOfDays;
 	private int noOfRooms; 
 
@@ -21,12 +33,11 @@ public class ReservationModel {
 	private double amount; 
 	private Date dateOfBook;
 	private Boolean receiptGenerated;
-	
-	@Id
-	private String userId;
+	private Date checkoutDate;
+	private String approvalStatus;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "usermodel_userid")
+	@JoinColumn(name = "userid")
 	private UserModel users;
 	
 
@@ -34,7 +45,7 @@ public class ReservationModel {
 		super();
 	}
 	
-	public ReservationModel(int noOfDays, int noOfRooms, double amount, Date dateOfBook, Boolean receiptGenerated,  
+	public ReservationModel(int noOfDays, int noOfRooms, double amount, Date dateOfBook, Boolean receiptGenerated, Date checkoutDate, 
 			UserModel users) {
 		super();
 		this.noOfDays = noOfDays;
@@ -42,7 +53,17 @@ public class ReservationModel {
 		this.amount = amount;
 		this.dateOfBook = dateOfBook;
 		this.receiptGenerated = receiptGenerated;
+		this.checkoutDate = checkoutDate;
+		this.approvalStatus = ReservationModel.PENDING;
 		this.users = users;
+	}
+		
+	public String getRevId() {
+		return revId;
+	}
+
+	public void setRevId(String revId) {
+		this.revId = revId;
 	}
 
 	public int getNoOfDays() {
@@ -83,6 +104,22 @@ public class ReservationModel {
 
 	public void setReceiptGenerated(Boolean receiptGenerated) {
 		this.receiptGenerated = receiptGenerated;
+	}
+
+	public Date getCheckoutDate() {
+		return checkoutDate;
+	}
+
+	public void setCheckoutDate(Date checkoutDate) {
+		this.checkoutDate = checkoutDate;
+	}
+
+	public String getApprovalStatus() {
+		return approvalStatus;
+	}
+
+	public void setApprovalStatus(String approvalStatus) {
+		this.approvalStatus = approvalStatus;
 	}
 
 	public UserModel getUsers() {

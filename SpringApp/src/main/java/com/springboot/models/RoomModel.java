@@ -1,7 +1,5 @@
 package com.springboot.models;
 
-import java.sql.Date;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -17,19 +15,17 @@ public class RoomModel {
 	@Column(precision = 2)
 	private Double price; 
 	private Boolean isOccupied; 
-	private Date checkoutDate;
 	
 	public RoomModel() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public RoomModel(int roomId, Double price, Boolean isOccupied, Date checkoutDate) {
+	public RoomModel(int roomId, Double price, Boolean isOccupied) {
 		super();
 		this.roomId = roomId;
 		this.price = price;
 		this.isOccupied = isOccupied;
-		this.checkoutDate = checkoutDate;
 	}
 
 	public int getRoomId() {
@@ -55,12 +51,5 @@ public class RoomModel {
 	public void setIsOccupied(Boolean isOccupied) {
 		this.isOccupied = isOccupied;
 	}
-
-	public Date getCheckoutDate() {
-		return checkoutDate;
-	}
-
-	public void setCheckoutDate(Date checkoutDate) {
-		this.checkoutDate = checkoutDate;
-	}	
+	
 }

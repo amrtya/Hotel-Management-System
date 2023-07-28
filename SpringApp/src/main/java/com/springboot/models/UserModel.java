@@ -31,7 +31,7 @@ public class UserModel {
 	private String mobileNo;
 	private String jobRole;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customers")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
 	private List<ReservationModel> reservations;
 	
 	public UserModel() {
