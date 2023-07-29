@@ -19,5 +19,5 @@ public interface ReservationModelRepository extends JpaRepository<ReservationMod
 	int checkAlreadyReserved(String userId);
 	
 	@Query(value = "SELECT * FROM ReservationModel r WHERE r.approvalStatus = ?1", nativeQuery = true)
-	Optional<List<ReservationModel>> findPending(String filter);
+	Optional<List<ReservationModel>> findPendingApprovals(String filter);
 }

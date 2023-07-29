@@ -1,5 +1,7 @@
 package com.springboot.services;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,12 +44,23 @@ public class ReservationService {
 	}
 	
 	public ResponseModelListPayload<ReservationModel> pendingApproval(String filter) {
-		Optional<List<ReservationModel>> pendingList = reservationModelRepository.findPending(filter);
+		Optional<List<ReservationModel>> pendingList = reservationModelRepository.findPendingApprovals(filter);
 		
 		if(pendingList.get().size() > 0) {
 			return new ResponseModelListPayload<ReservationModel>(ResponseModel.SUCCESS, pendingList.get());
 		}
 		
 		return new ResponseModelListPayload<ReservationModel>(ResponseModel.FAILURE, "Nothing to be reviewd here", null);
+	}
+	
+	public ResponseModel approveReservation(String revId) {
+		Optional<ReservationModel> revById = reservationModelRepository.findById(revId);
+		
+		ReservationModel revToUpdate = revById.get();
+		revToUpdate.setApprovalStatus(ReservationModel.APPROVED);
+		revToUpdate.setDateOfBook(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+		reservationModelRepository.save(revToUpdate);
+		
+		return new ResponseModel(ResponseModel.SUCCESS, "Request is approved now");
 	}
 }

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.models.*;
-import com.springboot.repository.ReservationModelRepository;
 import com.springboot.services.ReservationService;
 
 @RestController
@@ -22,9 +21,6 @@ public class UserController {
 	@Autowired
 	private ReservationService reservationService;
 	
-	@Autowired
-	private ReservationModelRepository reservationModelRepository;
-	
 	@PostMapping(path = "/reservation")
 	public ResponseModel requestReservation(@RequestBody ReservationModel reservationModel, @RequestHeader("user-id") String userId) {
 		return reservationService.requestReservation(reservationModel, userId);
@@ -33,5 +29,10 @@ public class UserController {
 	@GetMapping(path = "/checkStatus/{filter_by}")
 	public ResponseModelListPayload<ReservationModel> checkApprovalStatus(@PathVariable("filter_by") String filter) {
 		return reservationService.pendingApproval(filter);
+	}
+	
+	@GetMapping(path = "/approve/{revId}")
+	public ResponseModel approveReservation(@PathVariable String revId) {
+		return reservationService.approveReservation(revId);
 	}
 }
