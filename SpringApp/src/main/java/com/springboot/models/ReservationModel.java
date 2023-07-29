@@ -4,7 +4,6 @@ import java.sql.Date;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -28,10 +27,7 @@ public class ReservationModel {
 	private String revId;
 	private int noOfDays;
 	private int noOfRooms; 
-
-	@Column(precision = 2)
-	private double amount; 
-	private Date dateOfBook;
+	private String dateOfBook;
 	private Boolean receiptGenerated;
 	private Date checkoutDate;
 	private String approvalStatus;
@@ -45,12 +41,11 @@ public class ReservationModel {
 		super();
 	}
 	
-	public ReservationModel(int noOfDays, int noOfRooms, double amount, Date dateOfBook, Boolean receiptGenerated, Date checkoutDate, 
+	public ReservationModel(int noOfDays, int noOfRooms, String dateOfBook, Boolean receiptGenerated, Date checkoutDate, 
 			UserModel users) {
 		super();
 		this.noOfDays = noOfDays;
 		this.noOfRooms = noOfRooms;
-		this.amount = amount;
 		this.dateOfBook = dateOfBook;
 		this.receiptGenerated = receiptGenerated;
 		this.checkoutDate = checkoutDate;
@@ -82,19 +77,11 @@ public class ReservationModel {
 		this.noOfRooms = noOfRooms;
 	}
 
-	public double getAmount() {
-		return amount;
-	}
-
-	public void setAmount(double amount) {
-		this.amount = amount;
-	}
-
-	public Date getDateOfBook() {
+	public String getDateOfBook() {
 		return dateOfBook;
 	}
 
-	public void setDateOfBook(Date dateOfBook) {
+	public void setDateOfBook(String dateOfBook) {
 		this.dateOfBook = dateOfBook;
 	}
 
