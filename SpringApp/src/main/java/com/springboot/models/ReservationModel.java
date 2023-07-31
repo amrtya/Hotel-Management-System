@@ -1,6 +1,7 @@
 package com.springboot.models;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -10,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity 
@@ -35,6 +37,9 @@ public class ReservationModel {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "userid")
 	private UserModel users;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "reservations")
+	private List<RoomModel> roomModels;
 	
 
 	public ReservationModel() {

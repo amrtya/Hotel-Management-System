@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import com.springboot.models.ReservationModel;
 import com.springboot.models.ResponseModel;
 import com.springboot.models.ResponseModelListPayload;
+import com.springboot.models.RoomModel;
 import com.springboot.models.UserModel;
 import com.springboot.repository.ReservationModelRepository;
+import com.springboot.repository.RoomModelRepository;
 import com.springboot.repository.UserModelRepository;
 
 @Service
@@ -23,6 +25,9 @@ public class ReservationService {
 	
 	@Autowired
 	private UserModelRepository userModelRepository;
+	
+	@Autowired
+	private RoomModelRepository roomModelRepository;
 	 
 	public ResponseModel requestReservation(ReservationModel reservationModel, String userId) {
 		
@@ -53,14 +58,32 @@ public class ReservationService {
 		return new ResponseModelListPayload<ReservationModel>(ResponseModel.FAILURE, "Nothing to be reviewd here", null);
 	}
 	
-	public ResponseModel approveReservation(String revId) {
+	public ResponseModel approveReservation(String revId, String status, String[] roomList) {
 		Optional<ReservationModel> revById = reservationModelRepository.findById(revId);
 		
 		ReservationModel revToUpdate = revById.get();
-		revToUpdate.setApprovalStatus(ReservationModel.APPROVED);
-		revToUpdate.setDateOfBook(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
-		reservationModelRepository.save(revToUpdate);
 		
-		return new ResponseModel(ResponseModel.SUCCESS, "Request is approved now");
+		if(status == "APPROVED") {
+			revToUpdate.setApprovalStatus(ReservationModel.APPROVED);
+			
+			Double amount = 0.00;
+			
+			for(String room : roomList) {
+				RoomModel roomModel = roomModelRepository.findById(room).get();
+				
+				roomModel.setIsOccupied(RoomModel.OCCUPIED);
+				amount += roomModel.getPrice();
+				roomModelRepository.save(roomModel);
+			}
+			
+			revToUpdate.setDateOfBook(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+			reservationModelRepository.save(revToUpdate);
+			
+			return new ResponseModel(ResponseModel.SUCCESS, "Request is approved now, Total Payment = " + amount);
+		}
+		else if(status == "REJECTED")
+			revToUpdate.setApprovalStatus(ReservationModel.REJECTED);
+		
+		return new ResponseModel(ResponseModel.SUCCESS, "Request is Rejected");
 	}
 }

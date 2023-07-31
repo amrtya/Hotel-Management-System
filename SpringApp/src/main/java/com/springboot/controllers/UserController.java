@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.models.*;
 import com.springboot.services.ReservationService;
+import com.springboot.services.RoomService;
 
 @RestController
 @RequestMapping("/user")
@@ -20,6 +22,9 @@ public class UserController {
 	
 	@Autowired
 	private ReservationService reservationService;
+	
+	@Autowired
+	private RoomService roomService;
 	
 	@PostMapping(path = "/reservation")
 	public ResponseModel requestReservation(@RequestBody ReservationModel reservationModel, @RequestHeader("user-id") String userId) {
@@ -32,7 +37,12 @@ public class UserController {
 	}
 	
 	@GetMapping(path = "/approve/{revId}")
-	public ResponseModel approveReservation(@PathVariable String revId) {
-		return reservationService.approveReservation(revId);
+	public ResponseModel approveReservation(@PathVariable String revId, @RequestParam("status") String status, @RequestParam("room-list") String[] rooms) {
+		return reservationService.approveReservation(revId, status, rooms);
+	}
+	
+	@PostMapping(path = "/addRoom")
+	public ResponseModelListPayload<RoomModel> addRoom(@RequestBody RoomModel room) {
+		return roomService.addRoom(room);
 	}
 }
