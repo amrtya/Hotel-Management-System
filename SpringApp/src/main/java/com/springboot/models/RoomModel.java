@@ -15,7 +15,7 @@ public class RoomModel {
 	public static String VACANT = "VACANT", OCCUPIED = "OCCUPIED";
 	
 	@Id
-	private int roomId; 
+	private String roomId; 
 	
 	@Column(precision = 2)
 	private Double price; 
@@ -30,18 +30,18 @@ public class RoomModel {
 		// TODO Auto-generated constructor stub
 	}
 
-	public RoomModel(int roomId, Double price, String isOccupied) {
+	public RoomModel(String roomId, Double price, String isOccupied) {
 		super();
 		this.roomId = roomId;
 		this.price = price;
 		this.isOccupied = RoomModel.VACANT;
 	}
 
-	public int getRoomId() {
+	public String getRoomId() {
 		return roomId;
 	}
 
-	public void setRoomId(int roomId) {
+	public void setRoomId(String roomId) {
 		this.roomId = roomId;
 	}
 
@@ -59,6 +59,14 @@ public class RoomModel {
 
 	public void setIsOccupied(String isOccupied) {
 		this.isOccupied = isOccupied;
+	}
+
+	public ReservationModel getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(ReservationModel reservations) {
+		this.reservations = reservations;
 	}
 	
 }

@@ -36,13 +36,14 @@ public class UserController {
 		return reservationService.pendingApproval(filter);
 	}
 	
-	@GetMapping(path = "/approve/{revId}")
-	public ResponseModel approveReservation(@PathVariable String revId, @RequestParam("status") String status, @RequestParam("room-list") String[] rooms) {
+	@GetMapping(path = "/approve")
+	public ResponseModel approveReservation(@RequestHeader("revId") String revId, @RequestParam("status") String status, @RequestParam("room-list") String[] rooms) {
 		return reservationService.approveReservation(revId, status, rooms);
 	}
 	
 	@PostMapping(path = "/addRoom")
 	public ResponseModelListPayload<RoomModel> addRoom(@RequestBody RoomModel room) {
+		room.setIsOccupied(RoomModel.VACANT);
 		return roomService.addRoom(room);
 	}
 }

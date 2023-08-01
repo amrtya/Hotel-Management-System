@@ -63,7 +63,7 @@ public class ReservationService {
 		
 		ReservationModel revToUpdate = revById.get();
 		
-		if(status == "APPROVED") {
+		if(status.equals(ReservationModel.APPROVED)) {
 			revToUpdate.setApprovalStatus(ReservationModel.APPROVED);
 			
 			Double amount = 0.00;
@@ -72,6 +72,7 @@ public class ReservationService {
 				RoomModel roomModel = roomModelRepository.findById(room).get();
 				
 				roomModel.setIsOccupied(RoomModel.OCCUPIED);
+				roomModel.setReservations(revToUpdate);
 				amount += roomModel.getPrice();
 				roomModelRepository.save(roomModel);
 			}
@@ -79,7 +80,7 @@ public class ReservationService {
 			revToUpdate.setDateOfBook(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
 			reservationModelRepository.save(revToUpdate);
 			
-			return new ResponseModel(ResponseModel.SUCCESS, "Request is approved now, Total Payment = " + amount);
+			return new ResponseModel(ResponseModel.SUCCESS, "Request is approved now, Total Payment = Rs." + amount);
 		}
 		else if(status == "REJECTED")
 			revToUpdate.setApprovalStatus(ReservationModel.REJECTED);
