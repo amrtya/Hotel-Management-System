@@ -82,9 +82,8 @@ public class ReservationService {
 			
 			return new ResponseModel(ResponseModel.SUCCESS, "Request is approved now, Total Payment = Rs." + amount);
 		}
-		else if(status == "REJECTED")
-			revToUpdate.setApprovalStatus(ReservationModel.REJECTED);
 		
+		revToUpdate.setApprovalStatus(ReservationModel.REJECTED);
 		return new ResponseModel(ResponseModel.SUCCESS, "Request is Rejected");
 	}
 }
