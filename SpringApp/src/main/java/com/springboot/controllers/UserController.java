@@ -18,13 +18,15 @@ import com.springboot.services.RoomService;
 @RequestMapping("/user")
 public class UserController {
 	
-	// This controller class gives the endpoints for customers. 
+	// This controller class gives the operations of various users like- Manager, Employee, Customer. 
 	
 	@Autowired
 	private ReservationService reservationService;
 	
 	@Autowired
 	private RoomService roomService;
+	
+	/* This method is required to reserve room(s), applicable only for Customer */
 	
 	@PostMapping(path = "/reservation")
 	public ResponseModel requestReservation(@RequestBody ReservationModel reservationModel, @RequestHeader("user-id") String userId) {
@@ -44,6 +46,6 @@ public class UserController {
 	@PostMapping(path = "/addRoom")
 	public ResponseModelListPayload<RoomModel> addRoom(@RequestBody RoomModel room) {
 		room.setIsOccupied(RoomModel.VACANT);
-		return roomService.addRoom(room);
+		return roomService.addRoom(room); 
 	}
 }
