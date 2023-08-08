@@ -41,7 +41,7 @@ public class AdminService {
 		Optional<UserModel> customer = userModelRepository.findById(id);
 		
 		if(customer.isEmpty()) {
-			return new ResponseModelSinglePayload<UserModel>(ResponseModel.FAILURE, "Cusotmer not found", null);
+			return new ResponseModelSinglePayload<UserModel>(ResponseModel.FAILURE, "Customer not found", null);
 		}
 		
 		UserModel customerCurrent = customer.get();
@@ -55,10 +55,10 @@ public class AdminService {
 		Optional<UserModel> customer = userModelRepository.findById(id);
 		
 		if(customer.isEmpty()) {
-			return new ResponseModel(ResponseModel.FAILURE, "Cusotmer not found");
+			return new ResponseModel(ResponseModel.FAILURE, "Customer not found");
 		}
 		
 		userModelRepository.deleteById(id);
-		return new ResponseModel(ResponseModel.SUCCESS, "Cusotmer deleted successfully");
+		return new ResponseModel(ResponseModel.SUCCESS, "Customer deleted successfully");
 	}
 }
