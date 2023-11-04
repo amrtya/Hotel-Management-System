@@ -5,16 +5,16 @@ public class ResponseModel {
 	public static final String SUCCESS = "SUCCESS", FAILURE = "FAILURE"; 
 	
 	private String responseType;
-	private String resposneMessage;
+	private String responseMessage;
 	
 	public ResponseModel(String responseType) {
 		this.responseType = responseType;
-		this.resposneMessage = "";
+		this.responseMessage = "";
 	}
 	
-	public ResponseModel(String responseType, String resposneMessage) {
+	public ResponseModel(String responseType, String responseMessage) {
 		this.responseType = responseType;
-		this.resposneMessage = resposneMessage;
+		this.responseMessage = responseMessage;
 	}
 	
 	public String getResponseType() {
@@ -26,11 +26,11 @@ public class ResponseModel {
 	}
 	
 	public String getResposneMessage() {
-		return resposneMessage;
+		return responseMessage;
 	}
 	
-	public void setResposneMessage(String resposneMessage) {
-		this.resposneMessage = resposneMessage;
+	public void setResposneMessage(String responseMessage) {
+		this.responseMessage = responseMessage;
 	}
 	
 }
