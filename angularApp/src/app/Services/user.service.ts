@@ -3,6 +3,7 @@ import { User } from '../models/user.model';
 import { HttpClient } from "@angular/common/http";
 import { Response } from '../models/response.model';
 import { ToastrService } from 'ngx-toastr';
+import { loginModel } from '../models/login.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,19 @@ export class UserService {
                   this.toastr.error(this.responseData.resposneMessage);
                 else 
                   this.toastr.success(this.responseData.resposneMessage);
+            }
+        );
+    }
+
+    loginRequest(login : loginModel) {
+        this.http.post(this.baseURL + "/login", login).subscribe(
+            (response) => {
+              this.responseData = response as Response; 
+              console.log(this.responseData);
+              if(this.responseData.responseType == "FAILURE")
+                this.toastr.error(this.responseData.resposneMessage);
+              else 
+                this.toastr.success(this.responseData.resposneMessage);
             }
         );
     }

@@ -30,6 +30,7 @@ public class UserModel {
 	private String email;
 	private String mobileNo;
 	private String jobRole;
+	private String password;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
 	private List<ReservationModel> reservations;
@@ -40,7 +41,7 @@ public class UserModel {
 	}
 	
 	public UserModel(String firstName, String lastName, String address, String emailId,
-			String mobileNo, String jobRole) {
+			String mobileNo, String jobRole, String password) {
 		
 		super();
 		this.firstName = firstName;
@@ -49,10 +50,11 @@ public class UserModel {
 		this.email = emailId;
 		this.mobileNo = mobileNo;
 		this.jobRole = jobRole;
+		this.password = password;
 	}
 	
 	public UserModel(String userId, String firstName, String lastName, String address, String emailId,
-			String mobileNo, String jobRole) {
+			String mobileNo, String jobRole, String password) {
 		
 		super();
 		this.userId = userId;
@@ -62,6 +64,7 @@ public class UserModel {
 		this.email = emailId;
 		this.mobileNo = mobileNo;
 		this.jobRole = jobRole;
+		this.password = password;
 	}
 
 	public String getCustId() {
@@ -118,5 +121,13 @@ public class UserModel {
 
 	public void setJobRole(String jobRole) {
 		this.jobRole = jobRole;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }

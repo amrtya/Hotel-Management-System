@@ -34,14 +34,21 @@
                   <option value="ADMIN">Admin</option>
                 </select>
               </div>
-              <!-- <div class="mb-3 form-group">
-                <label class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" formControlName="password">
+              <div class="mb-3 form-group">
+                <label class="form-label required">Password</label>
+                <input type="password" class="form-control" id="password1" formControlName="password">
+                <div *ngIf="password.invalid && (password.dirty || password.touched)" class="form-text text-danger">
+                  <div *ngIf="password.errors?.['required']">Password is required</div>
+                </div>
               </div>
               <div class="mb-3 form-group">
-                <label class="form-label">Confirm Password</label>
-                <input type="password" class="form-control" id="password" formControlName="password">
-              </div> -->
+                <label class="form-label required">Confirm Password</label>
+                <input type="password" class="form-control" id="password2" formControlName="confPassword">
+                <div *ngIf="confPassword.invalid && (confPassword.dirty || confPassword.touched)" class="form-text text-danger">
+                  <div *ngIf="confPassword.errors?.['required']">Confirm Password is required</div>
+                  <div *ngIf="confPassword.errors?.['confirmPasswordValidator']">Confirm Password should match with Password</div>
+                </div>
+              </div>
 
               <button type="submit" class="btn btn-primary" [disabled]="signupForm.invalid">Sign Up</button>
             </form>

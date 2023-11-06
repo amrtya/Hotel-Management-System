@@ -7,8 +7,8 @@ public class UserReceiver {
 	private String address;
 	private String email;
 	private String mobileNo;
-	private String pwd;
 	private String jobRole;
+	private String password; 
 
 	
 	public UserReceiver() {
@@ -16,7 +16,7 @@ public class UserReceiver {
 	}
 	
 	public UserReceiver(String firstName, String lastName, String address, String emailId, String mobileNo,
-			String pwd, String jobRole) {
+			String jobRole, String password) {
 		
 		super();
 		this.firstName = firstName;
@@ -24,12 +24,12 @@ public class UserReceiver {
 		this.address = address;
 		this.email = emailId;
 		this.mobileNo = mobileNo;
-		this.pwd = pwd;
 		this.jobRole = jobRole;
+		this.password = password;
 	}
 	
 	public UserModel getCustomerModel() {
-		return new UserModel(firstName, lastName, address, email, mobileNo, jobRole);
+		return new UserModel(firstName, lastName, address, email, mobileNo, jobRole, password);
 	}
 
 	public String getFirstName() {
@@ -72,14 +72,6 @@ public class UserReceiver {
 		this.mobileNo = mobileNo;
 	}
 
-	public String getPwd() {
-		return pwd;
-	}
-
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
-	}
-
 	public String getEmail() {
 		return email;
 	}
@@ -94,6 +86,14 @@ public class UserReceiver {
 
 	public void setJobRole(String jobRole) {
 		this.jobRole = jobRole;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 }

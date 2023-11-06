@@ -30,7 +30,7 @@ public class SignupService {
 		
 		customerModelRepository.save(customer);
 		
-		loginModelRepository.save(new LoginModel(newUser.getMobileNo(), newUser.getPwd(), newUser.getJobRole()));
+		loginModelRepository.save(new LoginModel(newUser.getMobileNo(), newUser.getPassword(), newUser.getJobRole()));
 		
 		return new ResponseModel(ResponseModel.SUCCESS, "Customer is registered successfully");
 	}
