@@ -22,9 +22,10 @@ public class AdminService {
 	}
 	
 	
-	public ResponseModelSinglePayload<UserModel> getUserById(String id) {
+	public ResponseModelSinglePayload<UserModel> getUserById(String userId) {
 		
-		Optional<UserModel> custById = userModelRepository.findById(id);
+		Optional<UserModel> custById = userModelRepository.findById(userId);
+		
 		
 		if(custById.isEmpty()) {
 			return new ResponseModelSinglePayload<UserModel>(ResponseModel.FAILURE, "Customer not found by this ID", null);
@@ -45,7 +46,18 @@ public class AdminService {
 		}
 		
 		UserModel customerCurrent = customer.get();
-		userModelRepository.save(customerToUpdate);
+		
+		if(!customerCurrent.getPassword().equals(customerToUpdate.getPassword())) {
+			return new ResponseModelSinglePayload<UserModel>(ResponseModel.FAILURE, "Admin is not allowed to change user password", null);
+		}
+		
+		customerCurrent.setFirstName(customerToUpdate.getFirstName());
+		customerCurrent.setLastName(customerToUpdate.getLastName());
+		customerCurrent.setEmailId(customerToUpdate.getEmailId());
+		customerCurrent.setJobRole(customerToUpdate.getJobRole());
+		customerCurrent.setMobileNo(customerToUpdate.getMobileNo());
+		
+		userModelRepository.save(customerCurrent);
 		return new ResponseModelSinglePayload<UserModel>(ResponseModel.SUCCESS, "Customer updated successfully", customerCurrent);
 		
 	}

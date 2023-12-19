@@ -2,6 +2,8 @@ package com.springboot.models;
 
 import java.util.List;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 
 import jakarta.persistence.Entity;
@@ -12,6 +14,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
+@DynamicInsert
+@DynamicUpdate
 @Table
 public class UserModel {
 	
