@@ -17,6 +17,6 @@ public class RoomService {
 	public ResponseModelListPayload<RoomModel> addRoom(RoomModel room) {
 		roomModelRepository.save(room);
 		
-		return new ResponseModelListPayload<RoomModel>(ResponseModel.SUCCESS, "", roomModelRepository.findAll());
+		return new ResponseModelListPayload<RoomModel>(ResponseModel.SUCCESS, "Room added successfully", roomModelRepository.findAll());
 	}
 }
