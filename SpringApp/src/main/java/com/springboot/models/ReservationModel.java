@@ -1,9 +1,12 @@
 package com.springboot.models;
 
-import java.sql.Date;
 import java.util.List;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -16,6 +19,9 @@ import jakarta.persistence.Table;
 
 @Entity 
 @Table
+@DynamicUpdate
+@DynamicInsert
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer"})
 public class ReservationModel {
 	
 	public static String PENDING = "PENDING", APPROVED = "APPROVED", REJECTED = "REJECTED";
@@ -29,9 +35,9 @@ public class ReservationModel {
 	private String revId;
 	private int noOfDays;
 	private int noOfRooms; 
-	private String dateOfBook;
+	private String checkInDate;
 	private Boolean receiptGenerated;
-	private Date checkoutDate;
+	private String checkoutDate;
 	private String approvalStatus;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -40,18 +46,17 @@ public class ReservationModel {
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "reservations")
 	private List<RoomModel> roomModels;
-	
 
 	public ReservationModel() {
 		super();
 	}
 	
-	public ReservationModel(int noOfDays, int noOfRooms, String dateOfBook, Boolean receiptGenerated, Date checkoutDate, 
+	public ReservationModel(int noOfRooms, String checkInDate, Boolean receiptGenerated, String checkoutDate, 
 			UserModel users) {
 		super();
-		this.noOfDays = noOfDays;
+		
 		this.noOfRooms = noOfRooms;
-		this.dateOfBook = dateOfBook;
+		this.checkInDate = checkInDate;
 		this.receiptGenerated = receiptGenerated;
 		this.checkoutDate = checkoutDate;
 		this.approvalStatus = ReservationModel.PENDING;
@@ -82,12 +87,12 @@ public class ReservationModel {
 		this.noOfRooms = noOfRooms;
 	}
 
-	public String getDateOfBook() {
-		return dateOfBook;
+	public String getCheckInDate() {
+		return checkInDate;
 	}
 
-	public void setDateOfBook(String dateOfBook) {
-		this.dateOfBook = dateOfBook;
+	public void setCheckInDate(String checkInDate) {
+		this.checkInDate = checkInDate;
 	}
 
 	public Boolean getReceiptGenerated() {
@@ -98,11 +103,11 @@ public class ReservationModel {
 		this.receiptGenerated = receiptGenerated;
 	}
 
-	public Date getCheckoutDate() {
+	public String getCheckoutDate() {
 		return checkoutDate;
 	}
 
-	public void setCheckoutDate(Date checkoutDate) {
+	public void setCheckoutDate(String checkoutDate) {
 		this.checkoutDate = checkoutDate;
 	}
 

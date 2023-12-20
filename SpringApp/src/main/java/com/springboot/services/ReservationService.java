@@ -1,7 +1,8 @@
 package com.springboot.services;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +29,8 @@ public class ReservationService {
 	
 	@Autowired
 	private RoomModelRepository roomModelRepository;
+	
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 	 
 	public ResponseModel requestReservation(ReservationModel reservationModel, String userId) {
 		
@@ -41,6 +44,10 @@ public class ReservationService {
 			}
 		}
 		
+		LocalDate startDate = LocalDate.parse(reservationModel.getCheckInDate(), formatter);
+		LocalDate endDate = LocalDate.parse(reservationModel.getCheckoutDate(), formatter);
+		
+		reservationModel.setNoOfDays(Period.between(startDate, endDate).getDays());
 		reservationModel.setUsers(userById.get());
 		reservationModel.setApprovalStatus(ReservationModel.PENDING);
 		reservationModelRepository.save(reservationModel);
@@ -77,7 +84,7 @@ public class ReservationService {
 				roomModelRepository.save(roomModel);
 			}
 			
-			revToUpdate.setDateOfBook(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+			revToUpdate.setReceiptGenerated(false);
 			reservationModelRepository.save(revToUpdate);
 			
 			return new ResponseModel(ResponseModel.SUCCESS, "Request is approved now, Total Payment = Rs." + amount);
