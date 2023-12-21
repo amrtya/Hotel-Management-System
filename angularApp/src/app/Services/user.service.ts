@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { Response } from '../models/response.model';
 import { ToastrService } from 'ngx-toastr';
 import { loginModel } from '../models/login.model';
+import { error } from 'console';
 
 @Injectable({
   providedIn: 'root'
@@ -20,9 +21,12 @@ export class UserService {
             (response) => {
                 this.responseData = response as Response; 
                 if(this.responseData.responseType == "FAILURE")
-                  this.toastr.error(this.responseData.resposneMessage);
+                  this.toastr.error(this.responseData.responseMessage);
                 else 
-                  this.toastr.success(this.responseData.resposneMessage);
+                  this.toastr.success(this.responseData.responseMessage);
+            }, 
+            (error) => {
+              this.toastr.error("An Error Occured");
             }
         );
     }
@@ -33,9 +37,12 @@ export class UserService {
               this.responseData = response as Response; 
               console.log(this.responseData);
               if(this.responseData.responseType == "FAILURE")
-                this.toastr.error(this.responseData.resposneMessage);
+                this.toastr.error(this.responseData.responseMessage);
               else 
-                this.toastr.success(this.responseData.resposneMessage);
+                this.toastr.success(this.responseData.responseMessage);
+            },  
+            (error) => {
+              this.toastr.error("An Error Occured");
             }
         );
     }

@@ -1,0 +1,33 @@
+<div class="container">
+    <div class="row justify-content-center mt-5">
+      <div class="col-md-15">
+        <div class="card">
+            <table class="table table-bordered u-full-width sortable">
+                <thead>
+                  <tr>
+                    <th>FirstName</th>
+                    <th>LastName</th>
+                    <th>Mobile No</th>
+                    <th>Email ID</th>
+                    <th>JobRole</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of userList">
+                        <td>{{user.firstName}}</td>
+                        <td>{{user.lastName}}</td>
+                        <td>{{user.mobileNo}}</td>
+                        <td>{{user.emailId}}</td>
+                        <td>{{user.jobRole}}</td>
+                        <td>
+                            <button type="button" class="btn btn-light btn-outline-dark">Edit</button>
+                            <button type="button" class="btn btn-light btn-outline-dark">Delete</button>
+                        </td>
+                     </tr>
+                  </tbody>
+              </table>
+        </div>
+      </div>
+    </div>
+  </div>
