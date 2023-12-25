@@ -21,8 +21,8 @@
                         <td>{{user.emailId}}</td>
                         <td>{{user.jobRole}}</td>
                         <td>
-                            <button type="button" class="btn btn-light btn-outline-dark">Edit</button>
-                            <button type="button" class="btn btn-light btn-outline-dark">Delete</button>
+                            <button type="button" class="btn btn-light btn-outline-dark" (click)="onEdit(user)">Edit</button>
+                            <button type="button" class="btn btn-light btn-outline-dark" (click)="onDelete(user.custId)">Delete</button>
                         </td>
                      </tr>
                   </tbody>
