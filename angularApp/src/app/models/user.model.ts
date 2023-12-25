@@ -1,4 +1,5 @@
 export class User {
+    custId !: String;
     firstName !: String;
     lastName !: String;
     address !: String;
