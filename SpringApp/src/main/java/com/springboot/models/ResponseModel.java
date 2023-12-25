@@ -25,11 +25,11 @@ public class ResponseModel {
 		this.responseType = responseType;
 	}
 	
-	public String getResposneMessage() {
+	public String getResponseMessage() {
 		return responseMessage;
 	}
 	
-	public void setResposneMessage(String responseMessage) {
+	public void setResponseMessage(String responseMessage) {
 		this.responseMessage = responseMessage;
 	}
 	
