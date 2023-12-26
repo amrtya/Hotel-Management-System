@@ -4,6 +4,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
+import { MatTableModule } from '@angular/material/table' 
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -27,6 +28,7 @@ import { AdminComponent } from './homepage/admin/admin.component';
     FormsModule, 
     ReactiveFormsModule, 
     HttpClientModule,
+    MatTableModule,
     ToastrModule.forRoot({
       timeOut: 4000, 
       progressBar: true, 
