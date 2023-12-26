@@ -31,13 +31,13 @@ public class AdminController {
 		return adminService.getAllUsers();
 	}
 	
-	@GetMapping("/getUser/{id}")
-	public ResponseModelSinglePayload<UserModel> getCustomerById(@PathVariable String id) {
+	@GetMapping("/getUser")
+	public ResponseModelSinglePayload<UserModel> getCustomerById(@RequestParam(name = "id") String id) {
 		return adminService.getUserById(id);
 	}
 	
-	@RequestMapping(method = RequestMethod.PUT, value = "/updateUser/{id}")
-	public ResponseModelSinglePayload<UserModel> updateCustomer(@RequestBody UserModel customerModel, @PathVariable String id) {
+	@PostMapping(path = "/updateUser")
+	public ResponseModelSinglePayload<UserModel> updateCustomer(@RequestBody UserModel customerModel, @RequestParam(name = "id") String id) {
 		return adminService.updateUser(customerModel, id);
 	}
 	

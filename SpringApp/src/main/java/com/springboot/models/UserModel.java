@@ -6,6 +6,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -36,7 +37,7 @@ public class UserModel {
 	private String jobRole;
 	private String password;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "users", cascade = CascadeType.ALL)
 	private List<ReservationModel> reservations;
 	
 	public UserModel() {

@@ -47,7 +47,7 @@ public class AdminService {
 		
 		UserModel customerCurrent = customer.get();
 		
-		if(!customerCurrent.getPassword().equals(customerToUpdate.getPassword())) {
+		if(customerToUpdate.getPassword()!=null && !customerCurrent.getPassword().equals(customerToUpdate.getPassword())) {
 			return new ResponseModelSinglePayload<UserModel>(ResponseModel.FAILURE, "Admin is not allowed to change user password", null);
 		}
 		
