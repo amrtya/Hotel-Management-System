@@ -55,6 +55,7 @@ public class ReservationService {
 		return new ResponseModel(ResponseModel.SUCCESS, "Reservsation Request successfully submitted");
 	}
 	
+	
 	public ResponseModelListPayload<ReservationModel> pendingApproval(String filter) {
 		Optional<List<ReservationModel>> pendingList = reservationModelRepository.findPendingApprovals(filter);
 		
@@ -64,6 +65,7 @@ public class ReservationService {
 		
 		return new ResponseModelListPayload<ReservationModel>(ResponseModel.FAILURE, "Nothing to be reviewd here", null);
 	}
+	
 	
 	public ResponseModel approveReservation(String revId, String status, String[] roomList) {
 		Optional<ReservationModel> revById = reservationModelRepository.findById(revId);
