@@ -3,6 +3,7 @@ package com.springboot.services;
 import java.util.Optional;
 
 
+import com.springboot.exceptions.GenericExceptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,7 @@ public class AdminService {
 		
 		
 		if(custById.isEmpty()) {
-			return new ResponseModelSinglePayload<UserModel>(ResponseModel.FAILURE, "Customer not found by this ID", null);
+			throw new GenericExceptions("Customer not found by this ID");
 		}
 		
 		UserModel custFound = custById.get();
@@ -42,13 +43,13 @@ public class AdminService {
 		Optional<UserModel> customer = userModelRepository.findById(id);
 		
 		if(customer.isEmpty()) {
-			return new ResponseModelSinglePayload<UserModel>(ResponseModel.FAILURE, "Customer not found", null);
+			throw  new GenericExceptions("Customer not found");
 		}
 		
 		UserModel customerCurrent = customer.get();
 		
 		if(customerToUpdate.getPassword()!=null && !customerCurrent.getPassword().equals(customerToUpdate.getPassword())) {
-			return new ResponseModelSinglePayload<UserModel>(ResponseModel.FAILURE, "Admin is not allowed to change user password", null);
+			throw new GenericExceptions("Admin is not allowed to change user password");
 		}
 		
 		customerCurrent.setFirstName(customerToUpdate.getFirstName());
@@ -67,7 +68,7 @@ public class AdminService {
 		Optional<UserModel> customer = userModelRepository.findById(id);
 		
 		if(customer.isEmpty()) {
-			return new ResponseModel(ResponseModel.FAILURE, "Customer not found");
+			throw new GenericExceptions("Customer not found");
 		}
 		
 		userModelRepository.deleteById(id);

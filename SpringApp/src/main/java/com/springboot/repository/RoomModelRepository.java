@@ -11,9 +11,9 @@ import com.springboot.models.RoomModel;
 
 public interface RoomModelRepository extends JpaRepository<RoomModel, String> {
 	
-	@Query(value = "SELECT COUNT(*) FROM RoomModel WHERE roomId = ?1", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM ROOM_DETAILS WHERE roomId = ?1", nativeQuery = true)
 	int checkAvailableOrNot(String roomId);
 	
-	@Query(value = "SELECT r FROM RoomModel r WHERE r.isOccupied = ?1")
+	@Query(value = "SELECT r FROM ROOM_DETAILS r WHERE r.status = ?1", nativeQuery = true)
 	Optional<List<RoomModel>> fetchRoomByStatus(String status);
 }

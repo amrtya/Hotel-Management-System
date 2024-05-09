@@ -3,6 +3,8 @@ package com.springboot.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.springboot.dto.AddRoomDTO;
+import com.springboot.exceptions.GenericExceptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +19,8 @@ public class RoomService {
 	@Autowired
 	private RoomModelRepository roomModelRepository;
 	
-	public ResponseModelListPayload<RoomModel> addRoom(RoomModel room) {
-		roomModelRepository.save(room);
-		
+	public ResponseModelListPayload<RoomModel> addRoom(AddRoomDTO room) {
+		roomModelRepository.save(new RoomModel(room));
 		return new ResponseModelListPayload<RoomModel>(ResponseModel.SUCCESS, "Room added successfully", roomModelRepository.findAll());
 	}
 	
@@ -31,7 +32,7 @@ public class RoomService {
 		Optional<List<RoomModel>> getRoomByStatus = roomModelRepository.fetchRoomByStatus(status);
 		
 		if(getRoomByStatus.isEmpty()) {
-			return new ResponseModelListPayload<RoomModel>(ResponseModel.FAILURE, "No room present by " + status +" status", null);
+			throw new GenericExceptions("No room present by " + status +" status");
 		}
 		
 		List<RoomModel> roomFound = getRoomByStatus.get();

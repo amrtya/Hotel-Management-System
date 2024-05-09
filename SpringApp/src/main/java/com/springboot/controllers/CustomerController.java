@@ -1,12 +1,7 @@
 package com.springboot.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.springboot.models.*;
 import com.springboot.services.ReservationService;
@@ -26,5 +21,15 @@ public class CustomerController {
 	@PostMapping(path = "/reservation")
 	public ResponseModel requestReservation(@RequestBody ReservationModel reservationModel, @RequestHeader("user-id") String userId) {
 		return reservationService.requestReservation(reservationModel, userId);
+	}
+
+	@GetMapping(path = "/deleteReservation")
+	public ResponseModel deleteReservation(@RequestParam("rev-id") String revId) {
+		return reservationService.deleteReservation(revId);
+	}
+
+	@GetMapping(path = "/fetchReservations")
+	public ResponseModelListPayload<ReservationModel> fetchReservations(@RequestParam("user-id") String userId) {
+		return reservationService.fetchReservation(userId);
 	}
 }

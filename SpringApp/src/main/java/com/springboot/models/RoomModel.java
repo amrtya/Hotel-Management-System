@@ -1,47 +1,46 @@
 package com.springboot.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.TableGenerator;
+import com.springboot.dto.AddRoomDTO;
+import com.springboot.utils.RoomUtils;
+import jakarta.persistence.*;
 
 @Entity
-@Table
+@Table(name = "ROOM_DETAILS")
 public class RoomModel {
-	
-	public static String VACANT = "VACANT", OCCUPIED = "OCCUPIED";
-	
-	@TableGenerator(name = "id-gen", initialValue = 100, allocationSize = 1)
+
+	public static String VACANT = "VACANT", OCCUPIED = "OCCUPIED", CLEAN = "Under Cleaning";
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "id-gen")
 	private int roomId; 
 	
 	@Column(precision = 2)
 	private Double price; 
-	private String isOccupied; 
-	private int noOfBed;
-	
+	private String status;
+	private int singleBed;
+	private int doubleBed;
+	private String balcony;
+	private String deluxe;
+	private String categoryType;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "revId")
 	private ReservationModel reservations;
-	
+
 	public RoomModel() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public RoomModel(int roomId, Double price, String isOccupied, int noOfBed) {
+	public RoomModel(AddRoomDTO addRoomDTO) {
 		super();
-		this.roomId = roomId;
-		this.price = price;
-		this.isOccupied = RoomModel.VACANT;
-		this.noOfBed = noOfBed;
+        this.status = RoomModel.VACANT;
+		this.roomId = addRoomDTO.getRoomId();
+		this.singleBed = addRoomDTO.getNoOfSingleBed();
+		this.doubleBed = addRoomDTO.getNoOfDoubleBed();
+		this.balcony = addRoomDTO.getBalconyFacility();
+		this.deluxe = addRoomDTO.getIsDeluxeRoom();
+		this.categoryType = addRoomDTO.getCategory();
+
+		this.price = new RoomUtils().RoomPriceCalculation(this.roomId, this.singleBed, this.doubleBed, this.balcony, this.deluxe, this.categoryType);
 	}
 
 	public int getRoomId() {
@@ -61,19 +60,27 @@ public class RoomModel {
 	}
 
 	public String getIsOccupied() {
-		return isOccupied;
+		return status;
 	}
 
-	public void setIsOccupied(String isOccupied) {
-		this.isOccupied = isOccupied;
+	public void setIsOccupied(String status) {
+		this.status = status;
 	}
 
-	public int getNoOfBed() {
-		return noOfBed;
+	public int getNoOfSingleBed() {
+		return singleBed;
 	}
 
-	public void setNoOfBed(int noOfBed) {
-		this.noOfBed = noOfBed;
+	public void setNoOfSingleBed(int noOfSingleBed) {
+		this.singleBed = noOfSingleBed;
+	}
+
+	public int getNoOfDoubleBed() {
+		return doubleBed;
+	}
+
+	public void setNoOfDoubleBed(int noOfDoubleBed) {
+		this.doubleBed = noOfDoubleBed;
 	}
 
 	public ReservationModel getReservations() {
@@ -83,5 +90,28 @@ public class RoomModel {
 	public void setReservations(ReservationModel reservations) {
 		this.reservations = reservations;
 	}
-	
+
+	public String getBalconyFacility() {
+		return balcony;
+	}
+
+	public void setBalconyFacility(String balconyFacility) {
+		this.balcony = balconyFacility;
+	}
+
+	public String getIsDeluxeRoom() {
+		return deluxe;
+	}
+
+	public void setIsDeluxeRoom(String isDeluxeRoom) {
+		this.deluxe = isDeluxeRoom;
+	}
+
+	public String getCategoryType() {
+		return categoryType;
+	}
+
+	public void setCategoryType(String categoryType) {
+		this.categoryType = categoryType;
+	}
 }

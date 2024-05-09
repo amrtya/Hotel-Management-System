@@ -1,5 +1,6 @@
 package com.springboot.controllers;
 
+import com.springboot.dto.AddRoomDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,8 +29,7 @@ public class ManagerController {
 	private RoomService roomService;
 	
 	@PostMapping(path = "/addRoom")
-	public ResponseModelListPayload<RoomModel> addRoom(@RequestBody RoomModel room) {
-		room.setIsOccupied(RoomModel.VACANT);
+	public ResponseModelListPayload<RoomModel> addRoom(@RequestBody AddRoomDTO room) {
 		return roomService.addRoom(room); 
 	}
 	

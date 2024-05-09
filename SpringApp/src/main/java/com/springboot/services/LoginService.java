@@ -2,6 +2,7 @@ package com.springboot.services;
 
 import java.util.Optional;
 
+import com.springboot.exceptions.GenericExceptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +25,11 @@ public class LoginService {
 			if(custByMob.get().getPassword().equals(user.getPassword())) {
 				return new ResponseModel(ResponseModel.SUCCESS, "Logged in Successfully");
 			}
-			else 
-				return new ResponseModel(ResponseModel.FAILURE, "Incorrect Password");
+
+			throw new GenericExceptions("Incorrect Password");
 		}
-		else 
-			return new ResponseModel(ResponseModel.FAILURE, "User not found by this mobile number");
+
+		throw new GenericExceptions("User not found by this mobile number");
 	}
 	
 	public ResponseModel loginAdmin(AdminModel admin) {
@@ -36,6 +37,6 @@ public class LoginService {
 			return new ResponseModel(ResponseModel.SUCCESS, "Welcome Admin"); 
 		}
 		
-		return new ResponseModel(ResponseModel.FAILURE, "Incorrect Admin Credential");
+		throw new GenericExceptions("Incorrect Admin Credential");
 	}
 }

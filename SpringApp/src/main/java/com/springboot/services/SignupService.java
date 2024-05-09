@@ -2,6 +2,7 @@ package com.springboot.services;
 
 import java.util.Optional;
 
+import com.springboot.exceptions.GenericExceptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public class SignupService {
 		Optional<UserModel> custbyMobileNo = customerModelRepository.findCustomerByMob(newUser.getMobileNo());
 		
 		if(custbyMobileNo.isPresent()) {
-			return new ResponseModel(ResponseModel.FAILURE, "Customer with this Mobile No already exists.");
+			throw new GenericExceptions("Customer with this Mobile No already exists.");
 		}
 		
 		UserModel customer = newUser.getCustomerModel();

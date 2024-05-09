@@ -2,23 +2,15 @@ package com.springboot.models;
 
 import java.util.List;
 
+import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-
 @Entity 
-@Table
+@Table(name = "REV_DETAILS")
 @DynamicUpdate
 @DynamicInsert
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer"})
@@ -44,7 +36,7 @@ public class ReservationModel {
 	@JoinColumn(name = "userid")
 	private UserModel users;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "reservations")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "reservations", cascade = CascadeType.ALL)
 	private List<RoomModel> roomModels;
 
 	public ReservationModel() {
