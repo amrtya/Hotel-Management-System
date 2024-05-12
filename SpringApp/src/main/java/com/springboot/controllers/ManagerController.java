@@ -37,4 +37,9 @@ public class ManagerController {
 	public ResponseModelListPayload<RoomModel> fetchRooms() {
 		return roomService.fetchRooms();
 	}
+
+	@GetMapping(path = "/deleteRoom")
+	public ResponseModel deleteRoom(@RequestParam String roomId) {
+		return roomService.deleteRoom(roomId);
+	}
 }

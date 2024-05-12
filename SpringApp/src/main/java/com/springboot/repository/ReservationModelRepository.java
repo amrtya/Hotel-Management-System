@@ -24,4 +24,10 @@ public interface ReservationModelRepository extends JpaRepository<ReservationMod
 
 	@Query(value = "SELECT * FROM REV_DETAILS r WHERE r.userid = ?1", nativeQuery = true)
 	Optional<List<ReservationModel>> fetchReservationOfUser(String userId);
+
+	@Query(value = "SELECT * FROM REV_DETAILS WHERE checkInDate = ?1 AND approvalStatus = 'APPROVED' ORDER BY checkInDate", nativeQuery = true)
+	Optional<List<ReservationModel>> getCheckInsToday(String date);
+
+	@Query(value = "SELECT * FROM REV_DETAILS WHERE checkoutDate = ?1 AND approvalStatus = 'APPROVED' ORDER BY checkoutDate", nativeQuery = true)
+	Optional<List<ReservationModel>> getCheckOutsToday(String date);
 }

@@ -23,6 +23,17 @@ public class RoomService {
 		roomModelRepository.save(new RoomModel(room));
 		return new ResponseModelListPayload<RoomModel>(ResponseModel.SUCCESS, "Room added successfully", roomModelRepository.findAll());
 	}
+
+	public ResponseModel deleteRoom(String roomId) {
+		try {
+			roomModelRepository.deleteById(roomId);
+		}
+		catch (Exception e) {
+			throw new GenericExceptions("Error while deleting room");
+		}
+
+		return new ResponseModel(ResponseModel.SUCCESS, "Room deleted successfully");
+	}
 	
 	public ResponseModelListPayload<RoomModel> fetchRooms() {
 		return new ResponseModelListPayload<RoomModel>(ResponseModel.SUCCESS, roomModelRepository.findAll());

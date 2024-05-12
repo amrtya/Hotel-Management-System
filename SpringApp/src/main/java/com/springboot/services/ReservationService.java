@@ -1,14 +1,19 @@
 package com.springboot.services;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
 import com.springboot.exceptions.GenericExceptions;
 import com.springboot.exceptions.GlobalExceptionHandler;
+import com.springboot.utils.GenericUtils;
+import com.springboot.utils.RoomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -34,8 +39,8 @@ public class ReservationService {
 	
 	@Autowired
 	private RoomModelRepository roomModelRepository;
-	
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+	public HashMap<String, Integer> roomWiseRevRecord = new HashMap<>();
 	 
 	public ResponseModel requestReservation(ReservationModel reservationModel, String userId) {
 		
@@ -44,11 +49,8 @@ public class ReservationService {
 		if(userById.isEmpty()) {
 			throw new GenericExceptions("No User by this user-id");
 		}
-
-		LocalDate startDate = LocalDate.parse(reservationModel.getCheckInDate(), formatter);
-		LocalDate endDate = LocalDate.parse(reservationModel.getCheckoutDate(), formatter);
 		
-		reservationModel.setNoOfDays(Period.between(startDate, endDate).getDays());
+		reservationModel.setNoOfDays(new GenericUtils().durationBetweenDates(reservationModel.getCheckInDate(), reservationModel.getCheckoutDate()));
 		reservationModel.setUsers(userById.get());
 		reservationModel.setApprovalStatus(ReservationModel.PENDING);
 		reservationModelRepository.save(reservationModel);
@@ -67,6 +69,7 @@ public class ReservationService {
 		return new ResponseModelListPayload<ReservationModel>(ResponseModel.SUCCESS, pendingList.get());
 	}
 
+	@Transactional
 	public ResponseModel approveReservation(String revId, String status, String[] roomList, String rejectionReason) {
 		if(roomList.length == 0)
 			throw new GenericExceptions("Sorry!! No rooms are available now");
@@ -81,6 +84,7 @@ public class ReservationService {
 			revToUpdate.setApprovalStatus(ReservationModel.APPROVED);
 			
 			Double amount = 0.00;
+			String finalroomList = "";
 			
 			for(String room : roomList) {
 				if(roomModelRepository.findById(room).isEmpty()) {
@@ -88,12 +92,12 @@ public class ReservationService {
 				}
 
 				RoomModel roomModel = roomModelRepository.findById(room).get();
-				roomModel.setIsOccupied(RoomModel.OCCUPIED);
-				roomModel.setReservations(revToUpdate);
+				roomWiseRevRecord.put(revId, roomModel.getRoomId());
+				finalroomList += room + ",";
 				amount += roomModel.getPrice();
-				roomModelRepository.save(roomModel);
 			}
-			
+
+			revToUpdate.setRoomLists(finalroomList.substring(0, finalroomList.length() - 1));
 			revToUpdate.setReceiptGenerated(false);
 			reservationModelRepository.save(revToUpdate);
 			
@@ -122,5 +126,44 @@ public class ReservationService {
 		}
 
 		return new ResponseModelListPayload<>(ResponseModel.SUCCESS, "", reservationList.get());
+	}
+
+	@Scheduled(cron = "0 0/2 * * * *")
+	public void ScheduleAutoRoomAllocation() {
+		Optional<List<ReservationModel>> checkInsToday = reservationModelRepository.getCheckInsToday(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+
+		if(checkInsToday.isPresent()) {
+			List<ReservationModel> revObjects = checkInsToday.get();
+
+			for(ReservationModel rev: revObjects) {
+				String[] arr = rev.getRoomLists().split(",");
+				for(String roomNo: arr) {
+					RoomModel room = roomModelRepository.findById(roomNo).get();
+					room.setIsOccupied(RoomModel.OCCUPIED);
+					room.setReservations(rev);
+					roomModelRepository.save(room);
+				}
+			}
+		}
+	}
+
+	@Scheduled(cron = "0 0/2 * * * *")
+	public void ScheduleAutoRoomDeAllocation() {
+		Optional<List<ReservationModel>> checkOutsToday = reservationModelRepository.getCheckOutsToday(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+
+		if(checkOutsToday.isPresent()) {
+			List<ReservationModel> revObjects = checkOutsToday.get();
+
+			for(ReservationModel rev: revObjects) {
+				String[] arr = rev.getRoomLists().split(",");
+				for(String roomNo: arr) {
+					RoomModel room = roomModelRepository.findById(roomNo).get();
+					room.setIsOccupied(RoomModel.VACANT);
+					room.setReservations(null);
+					roomModelRepository.save(room);
+					reservationModelRepository.deleteById(rev.getRevId());
+				}
+			}
+		}
 	}
 }

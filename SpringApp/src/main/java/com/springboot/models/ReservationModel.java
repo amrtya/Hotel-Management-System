@@ -31,30 +31,40 @@ public class ReservationModel {
 	private Boolean receiptGenerated;
 	private String checkoutDate;
 	private String approvalStatus;
+	private String roomLists;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "userid")
 	private UserModel users;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "reservations", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "reservations")
 	private List<RoomModel> roomModels;
 
 	public ReservationModel() {
 		super();
 	}
 	
-	public ReservationModel(int noOfRooms, String checkInDate, Boolean receiptGenerated, String checkoutDate, 
-			UserModel users) {
+	public ReservationModel(int noOfRooms, String checkInDate, Boolean receiptGenerated, String checkoutDate, String roomLists,
+                            UserModel users) {
 		super();
 		
 		this.noOfRooms = noOfRooms;
 		this.checkInDate = checkInDate;
 		this.receiptGenerated = receiptGenerated;
 		this.checkoutDate = checkoutDate;
-		this.approvalStatus = ReservationModel.PENDING;
+        this.roomLists = roomLists;
+        this.approvalStatus = ReservationModel.PENDING;
 		this.users = users;
 	}
-		
+
+	@PreRemove
+	private void nullifyRooms() {
+		roomModels.forEach(rooms -> {
+			rooms.setReservations(null);
+			rooms.setIsOccupied(RoomModel.VACANT);
+		});
+	}
+
 	public String getRevId() {
 		return revId;
 	}
@@ -117,5 +127,13 @@ public class ReservationModel {
 
 	public void setUsers(UserModel users) {
 		this.users = users;
+	}
+
+	public String getRoomLists() {
+		return roomLists;
+	}
+
+	public void setRoomLists(String roomLists) {
+		this.roomLists = roomLists;
 	}
 }
